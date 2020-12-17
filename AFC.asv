@@ -1,0 +1,16 @@
+new = load('training_images/blue-res-train.mat');
+trainingDataTable = objectDetectorTrainingData(new.gTruth);
+acfDetector = trainACFObjectDetector(trainingDataTable,'NegativeSamplesFactor',2);
+img = imread('stopSignTest.jpg');
+
+img=imread("training_images/train11.jpg");
+[bboxes,scores] = detect(acfDetector,img);
+for i = 1:length(scores)
+   annotation = sprintf('Confidence = %.1f',scores(i));
+   if 
+       img = insertObjectAnnotation(img,'rectangle',bboxes(i,:),annotation);
+   end
+end
+
+figure
+imshow(img)
